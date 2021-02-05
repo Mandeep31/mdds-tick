@@ -1,6 +1,6 @@
 resource "rancher2_secret" "default" {
   name          = "${var.name}"
-  description   = "Rancher secret ${var.name} created by tf-app-modules risk_framework"
+  description   = "Terraform key created for ${var.name}"
   project_id    = "${var.project_id}"
   data          = "${var.data}"
 }
