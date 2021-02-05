@@ -66,40 +66,48 @@ resource "rancher2_secret" "rfw-data-platform-api-secret" {
   }
 }
 
-resource "rancher2_secret" "rfw-data-platform-api-mdds-access" {
-  provider      = "rancher2.dev"
+module "rfw-data-platform-api-mdds-access" {
+  source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/mdds_secrets?ref=master"
+  providers = {
+    rancher2 = "rancher2.dev"
+  }
   name          = "data-platform-api-mdds-access-key-1"
-  description   = "Terraform access key for data platform api"
   project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
   data = {
     data-platform-mdds-access = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-1-data-platform-mdds-access-key")))}"
   }
 }
 
-resource "rancher2_secret" "rfw-data-platform-api-mdds-secret" {
-  provider      = "rancher2.dev"
+module "rfw-data-platform-api-mdds-secret" {
+  source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/mdds_secrets?ref=master"
+  providers = {
+    rancher2 = "rancher2.dev"
+  }
   name          = "data-platform-api-mdds-secret-key-1"
-  description   = "Terraform secret for data platform api"
   project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
   data = {
     data-platform-mdds-secret = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-1-data-platform-mdds-access-secret")))}"
   }
 }
 
-resource "rancher2_secret" "rfw-s3-mdds-bucket-user-access" {
-  provider      = "rancher2.dev"
+module "rfw-s3-mdds-bucket-user-access" {
+  source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/mdds_secrets?ref=master"
+  providers = {
+    rancher2 = "rancher2.dev"
+  }
   name          = "s3-mdds-user-access-key-1"
-  description   = "Terraform access key for mdds S3 Bucket User"
   project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
   data = {
     s3-access-mdds = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-1-s3-mdds-admin-access-id.txt")))}"
   }
 }
 
-resource "rancher2_secret" "rfw-s3-mdds-bucket-user-secret" {
-  provider      = "rancher2.dev"
+module "rfw-s3-mdds-bucket-user-secret" {
+  source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/mdds_secrets?ref=master"
+  providers = {
+    rancher2 = "rancher2.dev"
+  }
   name          = "s3-mddds-user-secret-key-1"
-  description   = "Terraform secret for mdds S3 Bucket User"
   project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
   data = {
     s3-secret-mdds = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-1-s3-mdds-admin-access-secret")))}"
@@ -156,10 +164,12 @@ resource "rancher2_secret" "rfw-dev-okta-svc-rnrk-core-secret" {
   }
 }
 
-resource "rancher2_secret" "rfw-dev-okta-svc-rnrk-mdds-secret" {
-  provider      = "rancher2.dev"
+module "rfw-dev-okta-svc-rnrk-mdds-secret" {
+  source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/mdds_secrets?ref=master"
+  providers = {
+    rancher2 = "rancher2.dev"
+  }
   name = "rfw-dev-okta-svc-rnrk-mdds-secret"
-  description = "Okta secret for svc risk mdds"
   project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
   data = {
     okta-svc-rnrk-mdds-secret = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-okta-svc-rnrk-mdds-secret")))}"
