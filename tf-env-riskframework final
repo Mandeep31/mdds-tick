@@ -1,0 +1,207 @@
+resource "rancher2_secret" "on-prem-kafka-keytab" {
+  provider      = "rancher2.dev"
+  name          = "onprem-kafka-keytab"
+  description   = "Terraform secret for on prem kafka kerbros"
+  project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data          = {keytab = "${base64encode(chomp(file("/run/secrets/tf/kafka/aws-dev-kafkaclient.keytab")))}"}
+}
+
+resource "rancher2_secret" "rfw-s3-bucket-user-access" {
+  provider      = "rancher2.dev"
+  name          = "s3-user-access-key-1"
+  description   = "Terraform access key for S3 Bucket User"
+  project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    s3-access   = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-1-s3-admin-access-id.txt")))}"
+  }
+}
+
+resource "rancher2_secret" "rfw-s3-bucket-user-secret" {
+  provider      = "rancher2.dev"
+  name          = "s3-user-secret-key-1"
+  description   = "Terraform secret for S3 Bucket User"
+  project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    s3-secret   = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-1-s3-admin-access-secret")))}"
+  }
+}
+
+resource "rancher2_secret" "dev-rfw-api-access-key" {
+  provider      = "rancher2.dev"
+  name          = "dev-rfw-api-access-key"
+  description   = "Terraform secret access key for dev rfw-api"
+  project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    dev-rfw-api-access-key = "${base64encode(chomp(file("/run/secrets/tf/rfw/dev-rfw-api-access-key")))}"
+  }
+}
+
+resource "rancher2_secret" "dev-rfw-api-access-secret" {
+  provider      = "rancher2.dev"
+  name          = "dev-rfw-api-access-secret"
+  description   = "Terraform secret access secret for dev rfw-api"
+  project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    dev-rfw-api-access-secret = "${base64encode(chomp(file("/run/secrets/tf/rfw/dev-rfw-api-access-secret")))}"
+  }
+}
+
+resource "rancher2_secret" "rfw-data-platform-api-access" {
+  provider      = "rancher2.dev"
+  name          = "data-platform-api-access-key-1"
+  description   = "Terraform access key for data platform api"
+  project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    data-platform-access = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-2-data-platform-access-key")))}"
+  }
+}
+
+resource "rancher2_secret" "rfw-data-platform-api-secret" {
+  provider      = "rancher2.dev"
+  name          = "data-platform-api-secret-key-1"
+  description   = "Terraform secret for data platform api"
+  project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    data-platform-secret = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-2-data-platform-access-secret")))}"
+  }
+}
+
+module "rfw-data-platform-api-mdds" {
+  source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/mdds_secrets?ref=master"
+  providers = {
+    rancher2 = "rancher2.dev"
+  }
+  env_number = "40"
+  env_type   = "in2"
+  app_code   = "6"
+}
+
+
+
+resource "rancher2_secret" "rfw-kafka-security-jks" {
+    provider      = "rancher2.dev"
+    name = "rfw-dev-kafka-security-jks"
+    description = "SSL Cert JKS file for Kafka"
+    project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+    data = {
+      kafka-security-jks = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-kafka-security-jks")))}"
+    }
+}
+
+    resource "rancher2_secret" "rfw-kafka-security-pwd" {
+      provider      = "rancher2.dev"
+      name = "rfw-dev-kafka-security-pwd"
+      description = "SSL Cert JKS PWD for Kafka"
+      project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+      data = {
+        kafka-security-pwd = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-kafka-security-pwd")))}"
+      }
+}
+
+resource "rancher2_secret" "rfw-kafka-security-alias-pwd" {
+  provider      = "rancher2.dev"
+  name = "rfw-dev-kafka-security-alias-pwd"
+  description = "SSL Cert JKS alias PWD for Kafka"
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    kafka-security-alias-pwd = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-kafka-security-alias-pwd")))}"
+  }
+}
+
+resource "rancher2_secret" "rfw-dev-okta-ipl-ui-secret" {
+  provider      = "rancher2.dev"
+  name = "rfw-dev-okta-ipl-ui-secret"
+  description = "Okta secret for IPL UI"
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    okta-ipl-ui-secret = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-okta-ipl-ui-secret")))}"
+  }
+}
+
+resource "rancher2_secret" "rfw-dev-okta-svc-rnrk-core-secret" {
+  provider      = "rancher2.dev"
+  name = "rfw-dev-okta-svc-rnrk-core-secret"
+  description = "Okta secret for svc risk core"
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    okta-svc-rnrk-core-secret = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-okta-svc-rnrk-core-secret")))}"
+  }
+}
+
+resource "rancher2_secret" "rfw-dev-okta-svc-rnrk-prds-secret" {
+  provider      = "rancher2.dev"
+  name = "rfw-dev-okta-svc-rnrk-prds-secret"
+  description = "Okta secret for svc risk prds"
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    okta-svc-rnrk-prds-secret = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-okta-svc-rnrk-prds-secret")))}"
+  }
+}
+
+resource "rancher2_secret" "rfw-dev-zephyr" {
+  provider      = "rancher2.dev"
+  name = "rfw-dev-zephyr"
+  description = "Zephyr k8s secret"
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    zephyr-id = "${file("/run/secrets/tf/rfw/rfw-dev-zephyr-id")}"
+    zephyr-secret = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-zephyr-secret")))}"
+  }
+}
+
+resource "rancher2_certificate" "rfw-dev-flink-tls-k8s-dev-10" {
+  provider      = "rancher2.dev"
+  name = "rfw-dev-flink-tls-crt"
+  description = "Flink TLS CRT for K8s-Dev-10 ingress"
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  certs = "${chomp(file("/run/secrets/tf/rfw/rfw-dev-flink-tls-k8s-10.crt"))}"
+  key = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-flink-tls-k8s-10.key")))}"
+}
+
+resource "rancher2_certificate" "rfw-dev-flink-pers-tls-k8s-dev-10" {
+  provider      = "rancher2.dev"
+  name = "rfw-dev-flink-pers-tls-crt"
+  description = "Flink-pers TLS CRT for K8s-Dev-10 ingress"
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  certs = "${chomp(file("/run/secrets/tf/rfw/rfw-dev-flink-pers-tls-k8s-10.crt"))}"
+  key = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-flink-pers-tls-k8s-10.key")))}"
+}
+
+resource "rancher2_secret" "rfw-dev-2-pgsql-pass" {
+  provider      = "rancher2.dev"
+  name = "rfw-dev-2-pgsql-pass"
+  description = "Password for dev-2 postgresql"
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    password = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-2-pgsql-pass")))}"
+  }
+}
+
+resource "rancher2_secret" "rfw-s3-sdp-bucket-user-access" {
+  provider      = "rancher2.dev"
+  name          = "s3-sdp-user-access-key-1"
+  description   = "Terraform access key for S3 SDP Bucket User"
+  project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    s3-access   = "${base64encode(chomp(file("/run/secrets/tf/sdp/sdp-dev-1-risk-ro-access-key")))}"
+  }
+}
+
+resource "rancher2_secret" "rfw-s3-sdp-bucket-user-secret" {
+  provider      = "rancher2.dev"
+  name          = "s3-sdp-user-secret-key-1"
+  description   = "Terraform secret for S3 SDP Bucket User"
+  project_id    = "${module.riskframework_K8S_dev_10_project.project_id}"
+  data = {
+    s3-secret   = "${base64encode(chomp(file("/run/secrets/tf/sdp/sdp-dev-1-risk-ro-secret-key")))}"
+  }
+}
+
+resource "rancher2_certificate" "rfw-dev-app-tls-k8s-dev-10" {
+  provider      = "rancher2.dev"
+  name = "rfw-dev-app-tls-crt"
+  description = "App TLS CRT for K8s-Dev-10 ingress"
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  certs = "${chomp(file("/run/secrets/tf/rfw/rfw-dev-app-tls.crt"))}"
+  key = "${base64encode(chomp(file("/run/secrets/tf/rfw/rfw-dev-app-tls.key")))}"
+}
