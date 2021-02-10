@@ -1,3 +1,7 @@
+variable "project_id" {
+  description = "Project id"
+}
+
 variable "env_number" {
   description = "Env number"
 }
