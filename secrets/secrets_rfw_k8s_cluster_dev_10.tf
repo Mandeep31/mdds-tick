@@ -42,6 +42,17 @@ module "rfw-s3-bucket" {
   app_code   = "6"
 }
 
+module "rfw-s3-sdp" {
+  source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/sdp_secrets?ref=master"
+  providers = {
+    rancher2 = "rancher2.dev"
+  }
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  env_number = "40"
+  env_type   = "in2"
+  app_code   = "6"
+}
+
 module "on-prem-kafka-keytab" {
   source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/?ref=master"
   providers = {
