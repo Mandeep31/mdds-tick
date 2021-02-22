@@ -77,7 +77,7 @@ module "rfw-data-api-platform" {
 
 }
 
-module "rfw-dev-zephyr" {
+module "rfw-zephyr" {
   source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/zephyr_secrets?ref=master"
   providers = {
     rancher2 = "rancher2.dev"
