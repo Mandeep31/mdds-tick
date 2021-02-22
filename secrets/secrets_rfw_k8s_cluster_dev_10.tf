@@ -31,8 +31,8 @@ module "rfw-kafka-secret" {
   app_code   = "6"
 }
   
-module "rfw-s3-secret" {
-  source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/s3_secrets?ref=master"
+module "rfw-s3-bucket" {
+  source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/s3_bucket?ref=master"
   providers = {
     rancher2 = "rancher2.dev"
   }
