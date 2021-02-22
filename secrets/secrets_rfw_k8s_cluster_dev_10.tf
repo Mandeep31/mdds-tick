@@ -88,6 +88,17 @@ module "rfw-zephyr" {
   app_code   = "6"
  
 }
+  
+module "rfw-pgsql-pass" {
+  source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/pgsql_secrets?ref=master"
+  providers = {
+    rancher2 = "rancher2.dev"
+  }
+  project_id = "${module.riskframework_K8S_dev_10_project.project_id}"
+  env_number = "40"
+  env_type   = "in2"
+  app_code   = "6"
+}
 
 
 
