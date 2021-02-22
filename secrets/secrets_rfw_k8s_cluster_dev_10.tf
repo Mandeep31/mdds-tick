@@ -20,7 +20,7 @@ module "rfw-data-platform-api-mdds" {
   app_code   = "6"
 }
 
-module "on-prem-kafka-keytab1" {
+module "kafka-secret" {
   source = "git::https://github.theocc.com/platform-org/tf-modules-app.git//risk_framework/secrets/kafka_secrets?ref=master"
   providers = {
     rancher2 = "rancher2.dev"
